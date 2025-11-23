@@ -20,6 +20,7 @@ class OrganizationPage {
   clickButtonApagarOrg() {
     cy.get(el.buttonApagarOrg).click()
   }
+
   typeNewOrganization(name) {
     this.lastOrganizationName = name
     cy.get(el.inputNewOrg).clear()
@@ -34,9 +35,7 @@ class OrganizationPage {
     const organizationName = this.lastOrganizationName
 
     if (!organizationName) {
-      throw new Error(
-        'Nenhum nome de organização foi informado antes do salvamento',
-      )
+      throw new Error('No organization name was provided before saving')
     }
 
     cy.contains(el.cardOrgPrefix, organizationName).then(($card) => {
@@ -44,7 +43,7 @@ class OrganizationPage {
       const id = value?.replace('organization-card-', '')
 
       if (!id) {
-        throw new Error('Falha ao identificar o ID da organização criada')
+        throw new Error('Failed to capture the ID of the created organization')
       }
 
       Cypress.env('orgId', id)
@@ -55,7 +54,7 @@ class OrganizationPage {
     const id = Cypress.env('orgId')
 
     if (!id) {
-      throw new Error('ID da organização não foi salvo anteriormente')
+      throw new Error('Organization ID was not saved previously')
     }
 
     cy.get(el.cardOrg(id)).click()

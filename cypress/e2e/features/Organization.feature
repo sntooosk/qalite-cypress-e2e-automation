@@ -1,14 +1,14 @@
 Feature: Organization
 
   Background:
-    Given estou na página de Organization
+    Given I am on the Organization page
 
-  Scenario: Criar nova Organizacao
-    When clico no botao
-    And escrevo o nome da org
-    Then clico no botao salvar
+  Scenario: Create new organization
+    When I click the new organization button
+    And I type the organization name "Test Organization"
+    Then I save the organization
 
-  Scenario: apagar Organizacao
-    When clico no card do org
-    And clico no botao gerenciar Organizacao
-    Then clico no botao apagar
+  Scenario: Delete organization
+    When I click the saved organization card
+    And I open the manage organization menu
+    Then I delete the organization

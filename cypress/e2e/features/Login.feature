@@ -1,14 +1,14 @@
 Feature: Login
 
   Background:
-    Given estou na página de login
+    Given I am on the login page
 
-  Scenario: Login com credenciais padrão
-    When realizo login com as credenciais padrão
-    Then o login deve ser realizado com sucesso
+  Scenario: Login with default credentials
+    When I log in with the default credentials
+    Then the login should be successful
 
-  Scenario: Login com senha incorreta
-    When o usuário informa o email "juliano.cassimiro@qualitydigital.global"
-    And o usuário informa a senha "senha_errada"
-    And o usuário envia o formulário
-    Then a mensagem "E-mail ou senha incorretos. Confira os dados informados." deve ser exibida
+  Scenario: Login with incorrect password
+    When the user enters the email "juliano.cassimiro@qualitydigital.global"
+    And the user enters the password "senha_errada"
+    And the user submits the form
+    Then the message "E-mail ou senha incorretos. Confira os dados informados." should be displayed

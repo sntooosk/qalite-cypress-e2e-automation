@@ -1,64 +1,62 @@
-import { Given, When, Then, And } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import Login from '../pages/Login'
 import Organization from '../pages/Organization'
 
-Given('estou na página de login', () => {
+Given('I am on the login page', () => {
   Login.accessLoginPage()
 })
 
-Given('estou na página de Organization', () => {
+Given('I am on the Organization page', () => {
   Organization.accessOrganizationPage()
 })
 
-When('clico no botao', () => {
+When('I click the new organization button', () => {
   Organization.clickNewOrganizationButton()
 })
 
-And('escrevo o nome da org', () => {
-  Organization.typeNewOrganization('teste')
+When('I type the organization name {string}', (name) => {
+  Organization.typeNewOrganization(name)
 })
 
-Then('clico no botao salvar', () => {
+Then('I save the organization', () => {
   Organization.saveOrganization()
   Organization.storeCreatedOrganizationId()
 })
 
-When('clico no card do org', () => {
+When('I click the saved organization card', () => {
   Organization.clickSavedOrganizationCard()
 })
 
-Then('clico no botao apagar', () => {
-  Organization.clickButtonApagarOrg()
-})
-
-And('clico no botao gerenciar Organizacao', () => {
+When('I open the manage organization menu', () => {
   Organization.clickButtonGerenciar()
 })
 
-//
-// LOGIN STEPS
-//
+Then('I delete the organization', () => {
+  Organization.clickButtonApagarOrg()
+})
 
-When('o usuário informa o email {string}', (email) => {
+// LOGIN STEPS
+
+When('the user enters the email {string}', (email) => {
   Login.typeEmail(email)
 })
 
-When('o usuário informa a senha {string}', (senha) => {
-  Login.typePassword(senha)
+When('the user enters the password {string}', (password) => {
+  Login.typePassword(password)
 })
 
-When('o usuário envia o formulário', () => {
+When('the user submits the form', () => {
   Login.submitForm()
 })
 
-When('realizo login com as credenciais padrão', () => {
+When('I log in with the default credentials', () => {
   cy.login()
 })
 
-Then('o login deve ser realizado com sucesso', () => {
+Then('the login should be successful', () => {
   Login.validateSuccess()
 })
 
-Then('a mensagem {string} deve ser exibida', (msg) => {
-  Login.validateMessage(msg)
+Then('the message {string} should be displayed', (message) => {
+  Login.validateMessage(message)
 })
