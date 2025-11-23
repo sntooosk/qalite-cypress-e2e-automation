@@ -5,18 +5,15 @@
     "node": true,
     "cypress/globals": true
   },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:cypress/recommended",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["cypress", "prettier", "@typescript-eslint"],
+  "plugins": ["cypress", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
   "rules": {
     // ESLint rules
     "no-var": "error",
