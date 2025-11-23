@@ -13,6 +13,9 @@ const clearSavedSessions = () => {
 Cypress.Commands.add('resetSession', () => {
   cy.clearCookies()
   cy.clearLocalStorage()
+  cy.window().then((win) => {
+    win.localStorage?.clear()
+  })
   clearSavedSessions()
 })
 
