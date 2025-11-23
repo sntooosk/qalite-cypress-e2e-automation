@@ -46,8 +46,7 @@ jobs:
             ${{ inputs.feature != 'ALL'
                 && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
                 || ''
-              }}
-            --env environment=desktop
+              }} --env environment=desktop
           browser: chrome
         env:
           QA_LITE_BASE_URL: ${{ secrets.QA_LITE_BASE_URL }}
@@ -76,8 +75,7 @@ jobs:
             ${{ inputs.feature != 'ALL'
                 && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
                 || ''
-              }}
-            --env environment=mobile
+              }} --env environment=mobile
           browser: chrome
         env:
           QA_LITE_BASE_URL: ${{ secrets.QA_LITE_BASE_URL }}
