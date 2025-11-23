@@ -6,7 +6,25 @@ class OrganizationPage {
   }
 
   accessOrganizationPage() {
-    cy.login()
+    cy.visit('/')
+
+    cy.getCookies().then((cookies) => {
+      const hasAuthCookie = cookies.some(({ name }) => {
+        const lowerCaseName = name.toLowerCase()
+
+        return (
+          lowerCaseName.includes('auth') || lowerCaseName.includes('session')
+        )
+      })
+
+      if (hasAuthCookie) {
+        cy.visit('/admin')
+
+        return
+      }
+
+      cy.login()
+    })
   }
 
   clickNewOrganizationButton() {
