@@ -4,10 +4,10 @@ import users from '../fixtures/users.json'
 const persistFirebaseAuth = () =>
   cy.window().then(
     ({ indexedDB, localStorage }) =>
-      new Cypress.Promise((resolve, reject) => {
+      new Cypress.Promise((resolve) => {
         const request = indexedDB.open('firebaseLocalStorageDb')
 
-        request.onerror = () => reject(request.error)
+        request.onerror = () => resolve()
 
         request.onsuccess = () => {
           const transaction = request.result.transaction(
@@ -17,7 +17,7 @@ const persistFirebaseAuth = () =>
           const store = transaction.objectStore('firebaseLocalStorage')
           const getAllRequest = store.getAll()
 
-          getAllRequest.onerror = () => reject(getAllRequest.error)
+          getAllRequest.onerror = () => resolve()
 
           getAllRequest.onsuccess = () => {
             getAllRequest.result.forEach(({ fbase_key, value }) =>
@@ -30,26 +30,37 @@ const persistFirebaseAuth = () =>
       }),
   )
 
+const validateSession = () => {
+  cy.visit('/admin')
+  Login.validateAuthenticatedState()
+}
+
+const performLoginFlow = ({ email, password }) => {
+  Login.loginWithCredentials({ email, password })
+  persistFirebaseAuth()
+  validateSession()
+}
+
 Cypress.Commands.add(
   'login',
   (email = users.email, password = users.password) => {
+    const credentials = { email, password }
+
     cy.session(
-      { email, password },
+      credentials,
       () => {
-        Login.accessLoginPage()
-        Login.fillCredentials({ email, password })
-        Login.submitForm()
-        Login.validateSuccess()
-        persistFirebaseAuth()
+        cy.clearCookies()
+        cy.clearLocalStorage()
+        performLoginFlow(credentials)
       },
       {
         cacheAcrossSpecs: true,
         validate: () => {
-          cy.window().its('localStorage.length').should('be.gt', 0)
+          validateSession()
         },
       },
     )
 
-    cy.visit('/admin')
+    validateSession()
   },
 )
