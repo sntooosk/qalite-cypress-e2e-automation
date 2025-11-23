@@ -6,37 +6,7 @@ class OrganizationPage {
   }
 
   accessOrganizationPage() {
-    cy.visit('/')
-
-    cy.getCookies().then((cookies) => {
-      const hasAuthCookie = cookies.some(({ name }) => {
-        const lowerCaseName = name.toLowerCase()
-
-        return (
-          lowerCaseName.includes('auth') || lowerCaseName.includes('session')
-        )
-      })
-
-      if (hasAuthCookie) {
-        cy.visit('/admin')
-
-        cy.url().then((url) => {
-          const isLoggedIn = url.includes('/admin')
-
-          if (!isLoggedIn) {
-            cy.login()
-
-            return
-          }
-
-          cy.url().should('include', '/admin')
-        })
-
-        return
-      }
-
-      cy.login()
-    })
+    cy.visit('/admin')
   }
 
   clickNewOrganizationButton() {
