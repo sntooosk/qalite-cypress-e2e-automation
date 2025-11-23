@@ -1,37 +1,56 @@
-const el = require('./elements').ELEMENTS
+import { ELEMENTS as el } from './elements'
 
 class OrganizationPage {
+  constructor() {
+    this.lastOrganizationName = ''
+  }
+
   accessOrganizationPage() {
     cy.login()
   }
 
-  clickButton() {
+  clickNewOrganizationButton() {
     cy.get(el.buttonNewOrg).click()
   }
 
-  typeNewOrg(newOrgName) {
+  typeNewOrganization(name) {
+    this.lastOrganizationName = name
     cy.get(el.inputNewOrg).clear()
-    cy.get(el.inputNewOrg).type(newOrgName)
+    cy.get(el.inputNewOrg).type(name)
   }
 
-  clickButtonSalvar() {
+  saveOrganization() {
     cy.get(el.buttonSaveOrg).click()
   }
 
-  // SALVA O ID GERADO
-  saveGeneratedOrgId() {
-    cy.get(el.cardOrgPrefix)
-      .first()
-      .invoke('attr', 'data-testid')
-      .then((value) => {
-        const id = value.replace('organization-card-', '')
-        Cypress.env('orgId', id)
-      })
+  storeCreatedOrganizationId() {
+    const organizationName = this.lastOrganizationName
+
+    if (!organizationName) {
+      throw new Error(
+        'Nenhum nome de organização foi informado antes do salvamento',
+      )
+    }
+
+    cy.contains(el.cardOrgPrefix, organizationName).then(($card) => {
+      const value = $card.attr('data-testid')
+      const id = value?.replace('organization-card-', '')
+
+      if (!id) {
+        throw new Error('Falha ao identificar o ID da organização criada')
+      }
+
+      Cypress.env('orgId', id)
+    })
   }
 
-  // USA O ID SALVO
-  clickCardOrg() {
+  clickSavedOrganizationCard() {
     const id = Cypress.env('orgId')
+
+    if (!id) {
+      throw new Error('ID da organização não foi salvo anteriormente')
+    }
+
     cy.get(el.cardOrg(id)).click()
   }
 }

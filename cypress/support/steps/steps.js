@@ -11,20 +11,20 @@ Given('estou na página de Organization', () => {
 })
 
 When('clico no botao', () => {
-  Organization.clickButton()
+  Organization.clickNewOrganizationButton()
 })
 
 And('escrevo o nome da org', () => {
-  Organization.typeNewOrg('teste')
+  Organization.typeNewOrganization('teste')
 })
 
 Then('clico no botao salvar', () => {
-  Organization.clickButtonSalvar()
-  Organization.saveGeneratedOrgId() // <<< SALVA O ID AQUI
+  Organization.saveOrganization()
+  Organization.storeCreatedOrganizationId()
 })
 
 When('clico no card do org', () => {
-  Organization.clickCardOrg() // <<< USA O ID SALVO
+  Organization.clickSavedOrganizationCard()
 })
 
 //

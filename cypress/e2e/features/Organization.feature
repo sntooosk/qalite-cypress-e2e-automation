@@ -8,5 +8,5 @@ Feature: Organization
     And escrevo o nome da org
     Then clico no botao salvar
 
-    Scenario: apagar Organizacao
+  Scenario: apagar Organizacao
     When clico no card do org
