@@ -20,6 +20,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: qaLiteBaseUrl,
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx,feature}',
+    supportFile: 'cypress/support/e2e.ts',
     setupNodeEvents(on) {
       on('file:preprocessor', cucumber())
     },
