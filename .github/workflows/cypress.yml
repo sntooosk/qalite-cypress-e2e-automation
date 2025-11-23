@@ -11,6 +11,7 @@ on:
           - ALL
           - login
           - Organization
+
       device:
         description: 'Selecione o dispositivo'
         required: true
@@ -25,6 +26,7 @@ jobs:
   desktop:
     if: ${{ inputs.device == 'desktop' || inputs.device == 'ambos' }}
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -33,20 +35,17 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint project
-        run: npm run lint
+      - run: npm ci
+      - run: npm run lint
 
       - name: Run Cypress Desktop
         uses: cypress-io/github-action@v6
         with:
           command: >
             npm run cy:run --
-            ${{ inputs.feature == 'ALL'
-                && ''
-                || format('--spec "cypress/e2e/features/{0}.feature"', inputs.feature)
+            ${{ inputs.feature != 'ALL'
+                && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
+                || ''
               }}
             --env environment=desktop
           browser: chrome
@@ -57,6 +56,7 @@ jobs:
   mobile:
     if: ${{ inputs.device == 'mobile' || inputs.device == 'ambos' }}
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -65,20 +65,17 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint project
-        run: npm run lint
+      - run: npm ci
+      - run: npm run lint
 
       - name: Run Cypress Mobile
         uses: cypress-io/github-action@v6
         with:
           command: >
             npm run cy:run --
-            ${{ inputs.feature == 'ALL'
-                && ''
-                || format('--spec "cypress/e2e/features/{0}.feature"', inputs.feature)
+            ${{ inputs.feature != 'ALL'
+                && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
+                || ''
               }}
             --env environment=mobile
           browser: chrome
