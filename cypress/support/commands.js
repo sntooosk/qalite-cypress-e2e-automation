@@ -22,9 +22,18 @@ Cypress.Commands.add('resetSession', () => {
 Cypress.Commands.add(
   'login',
   (email = users.email, password = users.password) => {
-    cy.resetSession()
-    Login.accessLoginPage()
-    Login.fillCredentials({ email, password })
-    Login.submitForm()
+    const performLogin = () => {
+      cy.resetSession()
+      Login.accessLoginPage()
+      Login.fillCredentials({ email, password })
+      Login.submitForm()
+      Login.validateSuccess()
+    }
+
+    if (Cypress.session && typeof cy.session === 'function') {
+      cy.session([email, password], performLogin, { cacheAcrossSpecs: true })
+    } else {
+      performLogin()
+    }
   },
 )
