@@ -21,10 +21,16 @@ on:
           - mobile
           - ambos
 
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+
 jobs:
 
   desktop:
-    if: ${{ inputs.device == 'desktop' || inputs.device == 'ambos' }}
+    if: ${{ (inputs.device == 'desktop' || inputs.device == 'ambos') || github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -43,17 +49,23 @@ jobs:
         with:
           command: >
             npm run cy:run --
-            ${{ inputs.feature != 'ALL'
-                && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
-                || ''
-              }} --env environment=desktop
+            ${
+              {# Seleção automática: se workflow_dispatch usa o input, caso contrário roda ALL #}
+              github.event_name == 'workflow_dispatch'
+              && (
+                   inputs.feature != 'ALL'
+                   && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
+                   || ''
+                 )
+              || ''
+            } --env environment=desktop
           browser: chrome
         env:
           QA_LITE_BASE_URL: ${{ secrets.QA_LITE_BASE_URL }}
           QA_LITE_AUTH_COOKIE: ${{ secrets.QA_LITE_AUTH_COOKIE }}
 
   mobile:
-    if: ${{ inputs.device == 'mobile' || inputs.device == 'ambos' }}
+    if: ${{ (inputs.device == 'mobile' || inputs.device == 'ambos') || github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -72,10 +84,15 @@ jobs:
         with:
           command: >
             npm run cy:run --
-            ${{ inputs.feature != 'ALL'
-                && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
-                || ''
-              }} --env environment=mobile
+            ${
+              github.event_name == 'workflow_dispatch'
+              && (
+                   inputs.feature != 'ALL'
+                   && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
+                   || ''
+                 )
+              || ''
+            } --env environment=mobile
           browser: chrome
         env:
           QA_LITE_BASE_URL: ${{ secrets.QA_LITE_BASE_URL }}
