@@ -20,6 +20,18 @@ class OrganizationPage {
       if (hasAuthCookie) {
         cy.visit('/admin')
 
+        cy.url().then((url) => {
+          const isLoggedIn = url.includes('/admin')
+
+          if (!isLoggedIn) {
+            cy.login()
+
+            return
+          }
+
+          cy.url().should('include', '/admin')
+        })
+
         return
       }
 
