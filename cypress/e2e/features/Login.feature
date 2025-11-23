@@ -3,10 +3,8 @@ Feature: Login
   Background:
     Given estou na página de login
 
-  Scenario: Login válido
-    When o usuário informa o email "juliano.cassimiro@qualitydigital.global"
-    And o usuário informa a senha "Jul!@ninho0"
-    And o usuário envia o formulário
+  Scenario: Login com credenciais padrão
+    When realizo login com as credenciais padrão
     Then o login deve ser realizado com sucesso
 
   Scenario: Login com senha incorreta

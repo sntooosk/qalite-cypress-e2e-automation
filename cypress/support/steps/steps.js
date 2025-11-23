@@ -21,6 +21,10 @@ When('o usuário envia o formulário', () => {
   Login.submitForm()
 })
 
+When('realizo login com as credenciais padrão', () => {
+  cy.login()
+})
+
 Then('o login deve ser realizado com sucesso', () => {
   Login.validateSuccess()
 })
