@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps'
 import LoginPage from '../pages/Login'
 import OrganizationPage from '../pages/Organization'
 import ProfilePage from '../pages/Profile'
@@ -21,7 +21,26 @@ const invalidEmailFaker = faker.internet.email(
 const invalidPasswordFaker = faker.internet.password(16)
 
 /*-------------------------------------------*/
+const clearBrowserState = () => {
+  cy.window().then((win) => {
+    if (win.indexedDB?.databases) {
+      win.indexedDB.databases().then((databases) => {
+        databases.forEach((database) => {
+          if (database?.name) {
+            win.indexedDB.deleteDatabase(database.name)
+          }
+        })
+      })
+    }
+  })
 
+  cy.clearLocalStorage()
+  cy.clearCookies()
+}
+
+Before({ tags: '@logout' }, () => {
+  clearBrowserState()
+})
 /*--------------- Navigation ----------------*/
 
 Given('the user is on the login page', () => {
