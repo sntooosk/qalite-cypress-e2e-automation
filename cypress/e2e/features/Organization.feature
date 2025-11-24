@@ -1,4 +1,3 @@
-@logout
 Feature: Organization management
 
   Background:
