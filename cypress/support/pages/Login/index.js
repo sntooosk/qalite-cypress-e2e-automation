@@ -3,7 +3,7 @@ import { ELEMENTS } from './elements'
 
 class LoginPage extends BasePage {
   open() {
-    this.visit('/')
+    this.visit('/login')
   }
 
   typeEmail(email) {

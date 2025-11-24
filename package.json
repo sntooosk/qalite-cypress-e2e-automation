@@ -21,9 +21,7 @@
   ],
   "dependencies": {
     "cypress-xpath": "2.0.1",
-    "dotenv-cli": "^7.4.2",
-    "faker-br": "^0.4.1",
-    "yargs": "^17.7.2"
+    "dotenv-cli": "^7.4.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",

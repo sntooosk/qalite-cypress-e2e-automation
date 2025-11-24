@@ -1,46 +1,18 @@
-import { Given, When, Then, Before } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import LoginPage from '../pages/Login'
 import OrganizationPage from '../pages/Organization'
 import ProfilePage from '../pages/Profile'
+import {
+  randomCompanyName,
+  randomEmail,
+  randomLastName,
+  randomPassword,
+} from '../utils/generators'
 
-/*-------------------------------------------*/
-/* FAKER-BR */
-const faker = require('faker-br')
-
-/* Personal Data */
-const firstNameFaker = faker.name.firstName()
-const lastNameFaker = faker.name.lastName()
-const companyFaker = faker.company.companyName()
-
-const invalidEmailFaker = faker.internet.email(
-  firstNameFaker,
-  lastNameFaker,
-  'qualitydigital.global',
-)
-
-const invalidPasswordFaker = faker.internet.password(16)
-
-/*-------------------------------------------*/
-const clearBrowserState = () => {
-  cy.window().then((win) => {
-    if (win.indexedDB?.databases) {
-      win.indexedDB.databases().then((databases) => {
-        databases.forEach((database) => {
-          if (database?.name) {
-            win.indexedDB.deleteDatabase(database.name)
-          }
-        })
-      })
-    }
-  })
-
-  cy.clearLocalStorage()
-  cy.clearCookies()
-}
-
-Before({ tags: '@logout' }, () => {
-  clearBrowserState()
-})
+const lastNameFaker = randomLastName()
+const companyFaker = randomCompanyName()
+const invalidEmailFaker = randomEmail('qualitydigital.global')
+const invalidPasswordFaker = randomPassword(16)
 /*--------------- Navigation ----------------*/
 
 Given('the user is on the login page', () => {
