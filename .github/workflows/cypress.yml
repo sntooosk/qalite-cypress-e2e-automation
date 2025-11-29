@@ -54,13 +54,10 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           command: >
-            npm run cy:run --
-            ${{ github.event_name == 'workflow_dispatch'
-                  && (inputs.feature != 'ALL'
-                      && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
-                      || '') 
-                  || '' }}
-            --env environment=desktop
+            ${{ inputs.feature == 'ALL'
+                && format('npm run cy:run:all --environment=desktop')
+                || format('npm run cy:run:feature --feature={0} --environment=desktop', inputs.feature)
+            }}
           browser: chrome
 
   mobile:
@@ -85,11 +82,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           command: >
-            npm run cy:run --
-            ${{ github.event_name == 'workflow_dispatch'
-                  && (inputs.feature != 'ALL'
-                      && format('--spec cypress/e2e/features/{0}.feature', inputs.feature)
-                      || '') 
-                  || '' }}
-            --env environment=mobile
+            ${{ inputs.feature == 'ALL'
+                && format('npm run cy:run:all --environment=mobile')
+                || format('npm run cy:run:feature --feature={0} --environment=mobile', inputs.feature)
+            }}
           browser: chrome

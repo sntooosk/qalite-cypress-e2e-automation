@@ -9,4 +9,5 @@ export const ELEMENTS = {
   confirmDeleteButton: '[data-testid="confirm-delete-button"]',
   organizationCard: (id) => `[data-testid="organization-card-${id}"]`,
   organizationCardPrefix: '[data-testid^="organization-card-"]',
+  newStoreOrganization: '[data-testid="new-store-button"]',
 }
