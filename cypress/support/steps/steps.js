@@ -2,16 +2,19 @@ import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
 import LoginPage from '../pages/Login'
 import OrganizationPage from '../pages/Organization'
 import ProfilePage from '../pages/Profile'
+import StorePage from '../pages/Loja'
 import {
   randomCompanyName,
   randomEmail,
   randomLastName,
   randomPassword,
+  randomStoreName,
 } from '../utils/generators'
 import Toast from '../pages/components/Toast'
 
 const lastNameFaker = randomLastName()
-const companyFaker = randomCompanyName()
+const OrganizationFaker = randomCompanyName()
+const StoreFaker = randomStoreName()
 const invalidEmailFaker = randomEmail('qualitydigital.global')
 const invalidPasswordFaker = randomPassword(16)
 
@@ -54,11 +57,11 @@ When('the user starts creating a new organization', () => {
 })
 
 When('the user enters the organization name fake', () => {
-  OrganizationPage.enterOrganizationName(companyFaker)
+  OrganizationPage.enterOrganizationName(OrganizationFaker)
 })
 
 When('the user enters the organization new name fake', () => {
-  OrganizationPage.enterOrganizationNameSettings(companyFaker)
+  OrganizationPage.enterOrganizationNameSettings(OrganizationFaker)
 })
 
 Then('the user saves the organization', () => {
@@ -83,6 +86,8 @@ Then('the user deletes the organization', () => {
   OrganizationPage.confirmOrganization()
 })
 
+/*------------------- Toast -------------------*/
+
 When('the toast message {string} is displayed', (message) => {
   Toast.confirmMessage(message)
 })
@@ -103,4 +108,19 @@ Then('the user updates the profile', () => {
 
 When('the user name Header last name fake', () => {
   ProfilePage.expectNameHeader(lastNameFaker)
+})
+
+/*------------------- Loja -------------------*/
+
+When('the user starts creating a new store', () => {
+  OrganizationPage.startNewStore()
+})
+
+When('the user enters the store dados faker', () => {
+  StorePage.enterStoreName(StoreFaker)
+  StorePage.enterStoreUrl('http//loja.com')
+})
+
+Then('the user saves the store', () => {
+  StorePage.saveStore()
 })

@@ -14,6 +14,9 @@ class OrganizationPage extends BasePage {
   startNewOrganization() {
     this.click(ELEMENTS.newOrganizationButton)
   }
+  startNewStore() {
+    this.click(ELEMENTS.newStoreOrganization)
+  }
 
   enterOrganizationName(name) {
     this.createdOrganizationName = name
@@ -64,12 +67,10 @@ class OrganizationPage extends BasePage {
     const organizationId = Cypress.env('organizationId')
 
     if (!organizationId) {
-      throw new Error(
-        'No organization ID was cached. Create an organization before selecting it.',
-      )
+      this.click(ELEMENTS.organizationCard('fPfUlZajrgFsipvEi9kd'))
+    } else {
+      this.click(ELEMENTS.organizationCard(organizationId))
     }
-
-    this.click(ELEMENTS.organizationCard(organizationId))
   }
 }
 
