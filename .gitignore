@@ -19,10 +19,6 @@ cypress.env.json
 .env
 .env.local
 .env.*.local
-
-# DO NOT IGNORE
-!cypress.env.example.json
-
 # ------------------------------
 # Cypress Artifacts
 # ------------------------------

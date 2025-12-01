@@ -112,6 +112,9 @@ When('the user enters the store new name fake', () => {
   StorePage.fillStoreSettingsName(store.name)
 })
 
+When('the user fills the category store form', () => {
+  StorePage.fillCategoryTitle()
+})
 Then('the user updates the store', () => {
   StorePage.updateStore()
 })
@@ -120,6 +123,13 @@ Then('the user deletes the store', () => {
   StorePage.deleteStore()
 })
 
+Then('the user saves the category', () => {
+  StorePage.saveCategory()
+})
+
+When('the user click toggle category', () => {
+  StorePage.toggleStateFormCategory()
+})
 When('the user visits the profile page', () => {
   ProfilePage.open()
 })

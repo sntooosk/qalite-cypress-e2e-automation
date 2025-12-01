@@ -18,6 +18,17 @@ Feature: Store management
     Then the user updates the store
     And the toast message "Loja atualizada com sucesso." is displayed
 
+  Scenario: create new category in massa de cenarios
+    When the user selects the saved store card
+    And the user fills the category store form
+    Then the user saves the category
+    And the toast message "Categoria criada com sucesso." is displayed
+
+  @focus
+  Scenario: edit an existing category in massa de cenarios
+    When the user selects the saved store card
+    And the user click toggle category
+
   Scenario: Delete an existing store
     When the user selects the saved store card
     And the user opens the store management menu

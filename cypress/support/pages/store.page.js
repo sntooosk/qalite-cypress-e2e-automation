@@ -1,6 +1,7 @@
 import BasePage from './base.page'
 import { storeSelectors as s } from '../selectors/store'
 import seeds from '../../fixtures/entities.json'
+import seedsScenario from '../../fixtures/scenario.json'
 
 class StorePage extends BasePage {
   constructor() {
@@ -13,7 +14,12 @@ class StorePage extends BasePage {
     this.currentStoreName = name
     this.typeText(s.storeNameInput, name)
   }
-
+  fillCategoryTitle() {
+    this.typeText(
+      s.FORMSCENARIO.CATEGORY.inputCategory,
+      seedsScenario.forms.title,
+    )
+  }
   fillStoreUrl(url) {
     this.currentStoreUrl = url
     this.typeText(s.storeUrlInput, url)
@@ -26,6 +32,15 @@ class StorePage extends BasePage {
 
   saveStore() {
     this.click(s.saveStoreButton)
+  }
+  saveCategory() {
+    this.click(s.FORMSCENARIO.CATEGORY.buttonAddCategory)
+  }
+  toggleStateFormCategory() {
+    this.click(s.FORMSCENARIO.CATEGORY.toggleCategory)
+  }
+  updateCategory() {
+    this.click(s.FORMSCENARIO.CATEGORY.buttonEditCategory).eq(0)
   }
 
   updateStore() {

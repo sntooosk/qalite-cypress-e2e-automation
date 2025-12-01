@@ -9,6 +9,8 @@
     "lint:fix": "eslint --fix \"**/*.{js,ts}\"",
     "format": "prettier --write .",
     "cy:run": "cypress run",
+    "cy:run:desktop": "cypress run -c viewportWidth=1921,viewportHeight=1081 --env environment=desktop",
+    "cy:run:mobile": "cypress run -c viewportWidth=375,viewportHeight=667 --env environment=mobile",
     "cy:open:desktop": "cypress open -c viewportWidth=1921,viewportHeight=1081 --env environment=desktop",
     "cy:open:mobile": "cypress open -c viewportWidth=375,viewportHeight=667 --env environment=mobile",
     "bs:run:desktop": "dotenv -- browserstack-cypress run -c viewportWidth=1921,viewportHeight=1081 --env environment=desktop",
