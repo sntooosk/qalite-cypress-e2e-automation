@@ -10,6 +10,8 @@ on:
 jobs:
   cypress-desktop:
     runs-on: ubuntu-latest
+    outputs:
+      pages_artifact: ${{ steps.upload-pages.outputs.artifact-id }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,6 +25,7 @@ jobs:
           browser: chrome
           command: npm run cy:run:desktop
 
+      # ---------- ARTIFACTS ----------
       - name: Upload Videos (Desktop)
         if: always()
         uses: actions/upload-artifact@v4
@@ -38,8 +41,24 @@ jobs:
           name: cypress-screens-desktop
           path: cypress/screenshots/
 
+      # ---------- PAGES DESKTOP ----------
+      - name: Prepare Desktop Videos for Pages
+        if: always()
+        run: |
+          mkdir -p public/videos/desktop
+          cp -r cypress/videos/* public/videos/desktop/
+
+      - name: Upload Pages Artifact (Desktop)
+        id: upload-pages
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+
   cypress-mobile:
     runs-on: ubuntu-latest
+    needs: cypress-desktop
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -53,6 +72,7 @@ jobs:
           browser: chrome
           command: npm run cy:run:mobile
 
+      # ---------- ARTIFACTS ----------
       - name: Upload Videos (Mobile)
         if: always()
         uses: actions/upload-artifact@v4
@@ -67,3 +87,28 @@ jobs:
         with:
           name: cypress-screens-mobile
           path: cypress/screenshots/
+
+      # ---------- PAGES MOBILE ----------
+      - name: Prepare Mobile Videos for Pages
+        if: always()
+        run: |
+          mkdir -p public/videos/mobile
+          cp -r cypress/videos/* public/videos/mobile/
+
+      - name: Upload Pages Artifact (Mobile)
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+
+  # ---------- DEPLOY FINAL DO GITHUB PAGES ----------
+  deploy-pages:
+    runs-on: ubuntu-latest
+    needs: [cypress-desktop, cypress-mobile]
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
